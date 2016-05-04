@@ -54,7 +54,6 @@ a {
 .main {
   margin-top: 25px;
   padding: 0 30px;
-  
 }
 
 .content {
@@ -71,7 +70,7 @@ a {
   width: 450px;
   height: 580px;
   display: none;
-  opacity: 0.1;
+  opacity: 0.2;
   background-color: #fafafa;
   z-index: 100;
 }
