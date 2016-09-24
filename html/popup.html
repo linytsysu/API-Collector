@@ -5,10 +5,8 @@
     <title>API Collector</title>
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    
-    
 </head>
-<body>
+<body ng-controller="mainCtrl">
     <header class="top-bar">
         <div id="menu-button">
             <a href="#">
@@ -22,14 +20,60 @@
     
     <div id="left-menu" class="menu-hide">
         <ul>
-            <li>hello world</li>
+            <li ng-repeat="category in data.categories">
+                <a href="" ng-click="changeShownContent('category', category)"> {{ category }} </a>
+            </li>
+        </ul>
+        <ul>
+            <li ng-repeat="tag in data.tags">
+                <a href="" ng-click="changeShownContent('tag', tag)"> {{ tag }} </a>
+            </li>
         </ul>
     </div>
-        
-    <ng-include ng-controller="simpleCtrl" src="viewFile()"></ng-include>
     
-    <footer>
-    </footer>
+    <div class="main" ng-switch on="view">
+        <div ng-switch-when="Content">
+            <header>
+                <h1>{{ shownTitle }}</h1>
+            </header>
+            <article>
+                <ul class="apis-list">
+                    <li ng-repeat="api in shownData">
+                        <a href="{{api.url}}">{{ api.name }}</a>
+                    </li>
+                </ul>
+            </article>
+            <button ng-click="changeView('Form')" class="button">Add New</button>
+        </div>
+        
+        <div ng-switch-when="Form">
+            <form id="newAPIForm" name="newAPIForm" novalidate ng-submit="addNewAPI(newAPI)">
+                <div class="formField">
+                    <label for="url">Url:</label>
+                    <input name="url" type="url" ng-model="newAPI.url" class="formInput" required>
+                </div>
+                <div class="formField">
+                    <label for="name">Name:</label>
+                    <input name="name" type="text" ng-model="newAPI.name" class="formInput" required>
+                </div>
+                <div class="formField">
+                    <label for="category">Category:</label>
+                    <input name="category" type="text" ng-model="newAPI.category" class="formInput" required>
+                </div>
+                <div class="formField">
+                    <label for="tags">Tags:</label>
+                    <input name="tags" type="text" ng-model="newAPI.tags" class="formInput" required>
+                </div>
+                <div class="button-block">
+                    <button type="submit" ng-disabled="newAPIForm.$invalid" 
+                        ng-class="{ true: 'button button-disabled', false: 'button'}[newAPIForm.$invalid]">Add</button>
+                    <button ng-click="changeView('Content')" class="button">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+        
+    </div>
     
     <div id="toggle-helper"></div>
     
@@ -37,6 +81,5 @@
     <script type="text/javascript" src="../libs/angular.min.js"></script>
     <script type="text/javascript" src="../js/app.js"></script>
     <script type="text/javascript" src="../js/main.js"></script>
-     
 </body>
 </html>
